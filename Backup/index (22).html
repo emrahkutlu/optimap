@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>optimap - OSM Public Transport Indoor-Map</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+		<meta name="mobile-web-app-capable" content="yes">
+		<!-- Möglichkeit Verknüpfung anzulegen auf mobilen Endgeräten  -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<!-- Möglichkeit Verknüpfung anzulegen auf IOS Endgeräten  -->
+		<link  rel="stylesheet" href="stylesheet.css"/>
+		<meta name="author" content="Emrah Kutlu">
+		<meta name="description" content="WebMap shows Public Transport and Indoor-Data">
+
+		<!-- Link Leaflet OSM Stil  -->
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+		<!-- Link BootLeaf CSS  -->
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+		<!-- osm Geocoder (Suche) -->
+		<link rel="stylesheet" href="http://k4r573n.github.io/leaflet-control-osm-geocoder/Control.OSMGeocoder.css" />
+		<!-- Leaflet-Control Nutzerposition finden  -->
+		<link rel="stylesheet" href="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.css">
+		<!-- Leaflet Layergrupperung  -->
+		<link rel="stylesheet" href="assets/leaflet.groupedlayercontrol.css">
+		<!-- Leaflet Label  -->
+		<!-- <link rel="stylesheet" href="assets/leaflet.label.css">  -->
+
+	</head>
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+				<div class="navbar-header">
+					<div class="navbar-icon-container">
+						<a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i class="fa fa-bars fa-lg white"></i></a>
+						<a href="#" class="navbar-icon pull-right visible-xs" id="sidebar-toggle-btn"><i class="fa fa-plus-square-o fa-lg white"></i></a>
+					</div>
+					<a class="navbar-brand" href="#">opti-map</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<!--  ## Suchen Button in NavBar ##  -->
+					<!-- <form class="navbar-form navbar-right" role="search">
+					<div class="form-group has-feedback navbar-right">
+					<input id="searchbox" type="text" placeholder="Search" class="form-control">
+					<span id="searchicon" class="fa fa-search form-control-feedback"></span>
+					</div>
+					</form> -->
+					<p class="navbar-text">
+						OSM Public Transport Indoor-Map
+					</p>
+					<ul class="nav navbar-nav">
+						<li>
+							<a href="#" data-toggle="collapse" data-target=".navbar-collapse" id="info-btn"><i class="fa fa-question-circle white"></i>&nbsp;&nbsp;Info</a>
+						</li>
+						<li class="hidden-xs">
+							<a href="#" data-toggle="collapse" data-target=".navbar-collapse" id="list-btn"><i class="fa fa-list white"></i>&nbsp;&nbsp;Legende</a>
+						</li>
+						<li>
+							<a href="#" id="locate-btn"><i class="fa fa-map-marker white"></i>&nbsp;&nbsp;finde mich</a>
+						</li>
+						<!--             <li class="dropdown">
+						<a class="dropdown-toggle" id="listDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-bus white"></i>&nbsp;&nbsp;Verkehrsnetz <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+						<li><a href="#" id="sbahn-btn"><i class="fa fa-roads"></i>&nbsp;&nbsp;S-Bahn</a></li>
+						<li><a href="#" id="ubahn-btn"><i class="fa fa-roads"></i>&nbsp;&nbsp;U-Bahn </a></li>
+						<li><a href="#" id="tram-btn"><i class="fa fa-roads"></i>&nbsp;&nbsp;Tram</a></li>
+						<li><a href="#" id="bus-btn"><i class="fa fa-roads"></i>&nbsp;&nbsp;Bus</a></li>
+						</ul>
+						</li> -->
+					</ul>
+					<!--  VerkehrsLinienSchaltflächen in NavBar  -->
+					<ul class="nav navbar-nav">
+						<li>
+							<a><i class="fa fa-location-arrow white"></i>&nbsp;&nbsp;Verkehrsnetz: </a>
+						</li>
+						<li>
+							<div class="btn-group navbar-btn" href="#" data-toggle="buttons" id="btnGroup" >
+								<label class="btn btn-primary active" href="#" id="ubahn-btn">
+									<input type="radio" checked>
+									U-Bahn </label>
+								<label class="btn btn-primary" href="#" id="sbahn-btn">
+									<input type="radio">
+									S-Bahn </label>
+								<label class="btn btn-primary" href="#" id="tram-btn">
+									<input type="radio">
+									Tram </label>
+							</div>
+						</li>
+					</ul>
+				</div><!--/.navbar-collapse -->
+
+		</div><!-- /.modal -->
+		<div id="container">
+			<div id="sidebar">
+				<div class="sidebar-wrapper">
+					<div class="panel panel-default" id="features">
+						<div class="panel-heading">
+							<h3 class="panel-title">Legende
+							<button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn">
+								<i class="fa fa-chevron-left"></i>
+							</button></h3>
+						</div>
+						<div class="panel-body">
+							<table class="table table-hover" id="feature-list">
+								<ul class="list-group">
+								  <li class="list-group-item"><a class="pull-right" href="#"><img class="media-object" src="assets/src/rail-metro-24.svg" alt="..."></a>Bahnhof</li>
+								  <li class="list-group-item"><a class="pull-right" href="#"><img class="media-object" src="assets/src/disability-24.svg" alt="..."></a>Aufzug</li>
+								  <li class="list-group-item"><a class="pull-right" href="#"><img class="media-object" src="assets/src/entrance-24.svg" alt="..."></a>Eingang</li>
+								  <li class="list-group-item"><a class="pull-right" href="#"><img class="media-object" src="assets/src/FBEF69.png" alt="..."></a>Bahnsteig</li>
+				  				  <li class="list-group-item"><a class="pull-right" href="#"><img class="media-object" src="assets/src/99cc00.png" alt="..."></a>Fußweg / Treppe</li>
+				  				  <li class="list-group-item"><a class="pull-right" href="#"><img class="media-object" src="assets/src/Rolltreppe_REV_DBE81E-18.png" alt="..."></a>Rolltreppe</li>
+				  				  <li class="list-group-item"><a class="pull-right" href="#"><img class="media-object" src="assets/src/Rolltreppe_UP_DBE81E-18.png" alt="..."></a>Rolltreppe hoch</li>
+				  				  <li class="list-group-item"><a class="pull-right" href="#"><img class="media-object" src="assets/src/Rolltreppe_DOWN_DBE81E-18.png" alt="..."></a>Rolltreppe runter</li>
+								  <li class="list-group-item"><a class="pull-right" href="#"><img class="media-object" src="assets/src/f0f8ff.png" alt="..."></a>Tunnelfläche</li>
+								  <li class="list-group-item"><a class="pull-right" href="#"><img class="media-object" src="assets/src/FFCF46.png" alt="..."></a>Shop</li>
+								  <li class="list-group-item"><a class="pull-right" href="#"><img class="media-object" src="assets/src/FFBE36.png" alt="..."></a>Food</li>
+								  <li class="list-group-item"><a class="pull-right" href="#"><img class="media-object" src="assets/src/b2d9b5.png" alt="..."></a>Wege, Treppen im oberen Stockwerk</li>
+								  <li class="list-group-item"><a class="pull-right" href="#"><img class="media-object" src="assets/src/7fc084.png" alt="..."></a>Wege, Treppen im unteren Stockwerk</li>
+								</ul>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="map"></div>
+		</div>
+
+		<div id="loading">
+			<span><i class="fa fa-refresh fa-2x fa-spin"></i></span>
+		</div>
+		<div id="locationArrow">
+			<span><i class="fa fa-location-arrow fa-lg"></i></span>
+		</div>
+
+		<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" type="button" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title">OSM Public Transport Indoor-Map</h4>
+					</div>
+					<div class="modal-body">
+						<ul class="nav nav-tabs" id="aboutTabs">
+							<li class="active">
+								<a href="#about" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;Das Projekt</a>
+							</li>
+							<li>
+								<a href="#contact" data-toggle="tab"><i class="fa fa-envelope"></i>&nbsp;Kontakt</a>
+							</li>
+						</ul>
+						<div class="tab-content" id="aboutTabsContent">
+							<div class="tab-pane fade active in" id="about">
+								<p>
+									<b>Nutzung: </b> POIs stellen Bahnhöfe dar. Einen Bahnhof (z. B. Karlsplatz Stachus) anklicken, es aktiviert sich die Indoor-Anzeige. Sofern Indoor-Objekte vorhanden sind, werden diese auf der Karte als Ebene ausgegeben. Anhand der Ebenen-Kontrolle, rechts im Kartenfenster, kann zwischen den Ebenen gewechselt werden.
+									Neben der aktuell ausgewählten Ebene werden auch Treppen und Fußwege der <span style="background-color: #e4f3e4">darüberliegenden Ebene</span> und der <span style="background-color: #7fc084">darunterliegenden Ebene</span> ausgegeben.</p><p>
+									<b>Information: </b> Diese Webmap dient der Darstellung von Bahnhofsinfrastruktur. Ein Ziel ist es eine Webmap zu bieten, die dem Nutzer den Bahnhof auch von "innen" zeigt. Dabei sollen Wege, Treppen, Rolltreppen, Aufzüge, Rampen, Tunnel, Verkaufsautomaten, Geschäfte, Sitzbänke usw. ausgegeben werden.</p><p>
+									Indoor-Daten werden direkt aus der OSM-Datenbank abgefragt. Dazu zählen auch die Level der Ebenen-Kontrolle. Deshalb kann es sein, dass keine konstante Ebenenfolge herrscht bzw. Levelangaben als nicht ganze Zahlen eingetragen sind.
+									Die Seite befindet sich in Entwicklung, bei Vorschlägen oder Fehlerhinweisen nutzen Sie bitte das Kontaktformular.
+								</p>
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										aktuelle Features
+									</div>
+									<ul class="list-group">
+										<li class="list-group-item">
+											Die Webmap basiert auf <a href='http://leafletjs.com/'>leaflet</a>. Unter Nutzung des <a href='https://github.com/cbaines/leaflet-indoor'>leaflet-Indoor</a> PlugIns und der <a href='https://github.com/tyrasd/osmtogeojson'>osmtogeojson-Bibliothek</a>.
+										</li>
+										<li class="list-group-item">
+											Es wird <a href='http://bryanmcbride.com'>BootLeaf</a> als  Bootstrap Framework genutzt.
+										</li>
+										<li class="list-group-item">
+											Anzeige von Bahnhöfen als klickbare POIs (OSM-Tag: railway=station) aktiviert Indoor-Anzeige.
+										</li>
+										<li class="list-group-item">
+											Indoor Visualisierung der Bahnhofsinfrastruktur auf Basis der OSM-Merkmale.
+										</li>
+										<li class="list-group-item">
+											Visualisierung der Verkehrsnetze für S-Bahn, U-Bahn und Tram.
+										</li>
+										<li class="list-group-item">
+											Alle Daten werden in Echtzeit über die <a href='http://overpass-api.de/'>Overpass-Api</a> bezogen.
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div id="disclaimer" class="tab-pane fade text-danger">
+								<p>
+									The data provided on this site is for informational and planning purposes only.
+								</p>
+								<p>
+									Absolutely no accuracy or completeness guarantee is implied or intended. All information on this map is subject to such variations and corrections as might result from a complete title search and/or accurate field survey.
+								</p>
+							</div>
+							<div class="tab-pane fade" id="contact">
+								<form id="contact-form">
+									<div class="well well-sm">
+										<div class="row">
+										<div class="col-md-4">
+											<p>Bei Fragen und Hinweisen bitte Mail an:<br>
+											<a href="mailto:rotkelch@gmail.com">Emrah Kutlu</a>
+											</p>
+										</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							close
+						</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+		<div id="map"></div>
+		<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script><!--  Bibliothek für Leaflet  -->
+		<script src="assets/Leaflet.MakiMarkers.js"></script><!--  Bibliothek für Markers  -->
+		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script><!--  Bibliothek für JQuery  -->
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script><!--  Bibliothek für JQuery  -->
+		<script src="assets/leaflet-indoor.js"></script><!--  Bibliothek für Leaflet-Indoor-Plugin  -->
+		<script src="assets/osmtogeojson.js"></script><!--  Bibliothek für transformation OSM xml -> GeoJSON  -->
+		<!--  <script src="assets/leaflet.geojsoncss.min.js"></script> --><!--  Bibliothek für GeoJSON CSS  -->
+		<script src="http://k4r573n.github.io/leaflet-control-osm-geocoder/Control.OSMGeocoder.js"></script><!--  Bibliothek für Suche von Orten  -->
+		<!--  <script src="assets/leaflet.label.js"></script>--><!--  Bibliothek für Leaflet-label-Plugin  -->
+		<!-- <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.js"></script> --><!--  Bibliothek für Suche von Orten  -->
+		<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script> --><!--  Bibliothek Vorschläge bei Texteingabe  -->
+		<script src="script.js"></script>
+	</body>
+</html>

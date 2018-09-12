@@ -1,0 +1,53 @@
+﻿body {
+	padding: 0;
+	margin: 0;
+	}
+
+html, body, #map {
+	height: 100%;
+	width: 100%;
+}
+
+table  {
+    width: 100%;
+}
+
+td {
+padding: 5px;
+}
+
+
+/*#style {
+	function(feature) {
+        if (feature.properties.tags.shop === 'yes') {
+           	return {fillColor: '#FFFFCC', color: '#FFFFFF', weight: 2, fillOpacity: 0.9} 
+    	}
+		if (feature.properties.tags.shop === 'food') {
+            return {fillColor: '#C2FFAD', color: '#FFFFFF', weight: 2, fillOpacity: 0.9, zIndex: 5}
+        }
+    	if (feature.properties.tags.shop === 'bakery') {
+            return {fillColor: '#CCFF99', color: '#FFFFFF', weight: 2, fillOpacity: 0.9}
+        }
+        if (feature.properties.tags.shop === 'mobile_phone') {
+        	return {fillColor: '#DBDBFF', color: '#FFFFFF', weight: 2, fillOpacity: 0.9}
+        }
+        if (feature.properties.tags.shop) {
+        	return {fillColor: '#DBDBFF', color: '#FFFFFF', weight: 2, fillOpacity: 0.9}
+        }
+        if (feature.properties.tags.amenity) {
+        	return {fillColor: '#ffcc99', color: '#FFFFFF', weight: 2, fillOpacity: 0.9}
+    	}
+    	if (feature.properties.tags.amenity === 'yes') {
+    		return {fillColor: '#FFF0FF', color: '#FFFFFF', weight: 2, fillOpacity: 0.9}
+        }
+        if (feature.properties.tags.public_transport === 'platform') {
+            return {fillColor: '#CED7E0', color: '#FFFFFF', weight: 2, fillOpacity: 0.9}
+        }
+        if (feature.properties.tags.tunnel === 'yes') {
+            return {fillColor: '#CED7E0', color: '#FFFFFF', weight: 2, fillOpacity: 0.1, zIndex: 1}
+        } 
+        else if(feature.properties.tags.area === 'yes') {
+        	return {fillColor: '#CED7E0', color: '#FFFFFF', weight: 2, fillOpacity: 0.1, zIndex: 1}
+        }
+	}
+}*/

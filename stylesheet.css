@@ -1,0 +1,272 @@
+body {
+    padding-top: 50px;
+}
+
+html, body, #container {
+	height: 100%;
+	width: 100%;
+    overflow: hidden;/*  Übergroßen Inhalt beschneiden  */
+}
+
+#map {
+    width: auto;
+    height: 100%;
+    box-shadow: 0 0 7px rgba(0,0,0,0.7);/*  Schatten zu Sidebar  */
+}
+
+/*Popup - Tabellen design*/
+#tableStyle td.cellStyle {  
+  text-indent: 10px;
+  /*border: 1px solid green;
+  tab-size:4;
+  -moz-tab-size: 4;
+  -o-tab-size:  4;
+  white-space: pre-wrap;
+  */
+  }
+
+input[type="radio"], input[type="checkbox"] {
+  margin: 0;
+}
+
+/*  Laden Grafik */
+#loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: #3399cc;
+}
+#features {
+  margin: 0px;
+  border: none;
+  border-radius: 0px;
+  -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+/*  ### Sidebar spezifisch ###  */
+#sidebar {
+    width:  200px;
+    height: 100%;
+    max-width: 100%;
+    float: left;
+    -webkit-transition: all 0.5s ease-out;/*  Ein - ausblendeffekte  */
+    -moz-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+      overflow: auto;
+}
+#sidebar-hide-btn {
+  margin-top: -2px;
+}
+#aboutTabsContent {
+  padding-top: 10px;
+}
+.white {
+  color: #FFFFFF;
+}
+.sidebar-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.sidebar-table {
+  position: absolute;
+  width: 100%;
+  top: 100px;
+  bottom: 0px;
+  overflow: auto;
+}
+
+/*  ### ´Leaflet-Contorl spezifisch ###  */
+.leaflet-control-layers label {
+  font-weight: normal;
+  margin-bottom: 0px;
+}
+.leaflet-control-layers-list input[type="radio"], input[type="checkbox"] {
+  margin: 2px;
+}
+
+/*  ### NAvbar spezifisch ###  */
+.navbar .navbar-brand {
+  font-weight: bold;
+  font-size: 25px;
+  color: #FFFFFF;
+}
+
+.navbar-collapse.in {
+  overflow-y: hidden;
+}
+.navbar-header .navbar-icon-container {
+  margin-right: 15px;
+}
+.navbar-header .navbar-icon {
+  line-height: 50px;
+  height: 50px;
+}
+.navbar-header a.navbar-icon {
+  margin-left: 25px;
+}
+
+@media (max-width: 992px) {
+  .navbar .navbar-brand {
+    font-size: 18px;
+  }
+}
+@media (max-width: 767px){
+  #sidebar {
+    display: none;
+  }
+  .url-break {
+    word-break: break-all;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+      hyphens: auto;
+  }
+  .dropdown-menu a i{
+    color: #FFFFFF;
+  }
+}
+/* Print Handling */
+@media print {
+  .navbar {
+    display: none !important;
+  }
+  .leaflet-control-container {
+    display: none !important;
+  }
+}
+
+/*  ### Code spezifisch ###  */
+table {
+    width: 100%;
+}
+
+td {
+padding: 5px;
+}
+
+/*Styles für GeoJSON Objekte*/
+.areaRaum {fill: #FFCF46; transition: fill .6s ease-out; -webkit-transition: .6s; -moz-transition: .6s; transition: .6s; stroke: #FFFFFF; stroke-width: 1; fill-opacity: 1}
+.areaRaum:hover {fill: gold; stroke-width: 2; stroke-opacity: 1;}
+/*#FBEF69*/
+.platform {fill: #FBEF69; transition: fill .6s ease-out; -webkit-transition: .6s; -moz-transition: .6s; transition: .6s; stroke: #333333; stroke-width: 1; fill-opacity: 1}
+.platform:hover {fill: gold; stroke-width: 2; stroke-opacity: 1;}
+
+.rail {stroke: #FA6666; stroke-width: 6}
+.conveyingBackward {stroke-width: 8; stroke-dasharray: 1,4; stroke: #006100; stroke-opacity: 1; stroke-linejoin: miter; stroke-linecap: butt}
+.conveyingForward {stroke-width: 8; -webkit-animation: dash 100s linear infinite; animation: dash 100s linear infinite; stroke-dasharray: 1,5; stroke: #006100; stroke-opacity: 1; stroke-linejoin: miter; stroke-linecap: butt}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 1000;
+  }
+}
+@-webkit-keyframes dash {
+  to {
+    stroke-dashoffset: 1000;
+  }
+}
+.conveyingRev {stroke-width: 8; -webkit-animation: rev 3s linear infinite alternate; animation: rev 3s linear infinite alternate; stroke-dasharray: 1,4; stroke: #006100; stroke-opacity: 1; stroke-linejoin: miter; stroke-linecap: butt}
+
+@keyframes rev {
+  to {
+    stroke-dashoffset: 25;
+  }
+}
+@-webkit-keyframes rev {
+  to {
+    stroke-dashoffset: 25;
+  }
+}
+.conveyingForwardOOR {stroke-width: 8; stroke-dasharray: 1,4; stroke: #A1001C; stroke-opacity: 1; stroke-linejoin: miter; stroke-linecap: butt}
+.steps {stroke-width: 8; stroke-dasharray: 1.5,3; stroke: #006100; stroke-opacity: 1; stroke-linejoin: miter; stroke-linecap: butt}
+.footway {stroke: #99CC00; opacity: 1; stroke-width: 1}
+.footwayU {stroke: #e4f3e4; stroke-width: 4; stroke-opacity: 0.8}
+.stepsU {stroke-width: 8; stroke-dasharray: 1,3; stroke: #006100; stroke-opacity: 0.5; stroke-linejoin: miter; stroke-linecap: butt}
+.footwayD {stroke: #7fc084; stroke-width: 4; stroke-opacity: 0.3}
+.stepsD {stroke-width: 8; stroke-dasharray: 1,3; stroke: #006100; stroke-opacity: 0.5; stroke-linejoin: miter; stroke-linecap: butt}
+.footwayArea {fill: #e1ff87; opacity: 1; stroke-width: 1; fill-opacity: 1; clickable: false}
+.elevator {    animation-name: elevator; 
+    animation-duration: 10s;
+    animation-iteration-count: 2;
+    animation-delay: 2s; 
+    animation-play-state: running;
+    fill: yellowgreen; stroke: darkgreen; stroke-width: 4; fill-opacity: 1; stroke-opacity: 1; stroke-linejoin: miter; stroke-linecap: butt 
+}/*{fill: none; stroke: none; stroke-width: 0; fill-opacity: 0}*/ /*.elevator {fill: #99cc00; stroke: #FFFFFF; stroke-width: 1; fill-opacity: 1}*/
+
+
+@keyframes elevator {
+    0%  { transform: translateX(-200px)}
+    30% { transform: translateX(220px)}
+    65% { transform: translateX(580px)}
+    100% { transform: translateX(900px)}
+}
+
+.elevatorOOR {fill: none; stroke: #FFFFFF; stroke-width: 1; fill-opacity: 1}
+.areaShop {fill: #FFDE7B; transition: fill .4s ease-out; -webkit-transition: .4s; -moz-transition: .4s; transition: .4s; stroke: #FFFFFF; stroke-width: 1; fill-opacity: 1}
+.areaShop:hover {fill: gold; stroke-width: 2; stroke-opacity: 1;}
+
+.areaFood {fill: #FFBE36; transition: fill .4s ease-out; -webkit-transition: .4s; -moz-transition: .4s; transition: .4s; stroke: #FFFFFF; stroke-width: 1; fill-opacity: 1}
+.areaFood:hover {fill: gold; stroke-width: 2; stroke-opacity: 1;}
+
+.tunnel {fill: #f0f8ff; stroke: #FFFFFF; stroke-width: 2; fill-opacity: 1; clickable: false}
+.areaOthers {fill: #f6f6f6; stroke: #FFFFFF; stroke-width: 1; fill-opacity: 1}
+.area {fill: #CED7E0; stroke: #FFFFFF; stroke-width: 2; fill-opacity: 1}
+.trainStation {fill: #c5cbd9; stroke: #333333; stroke-width: 1; fill-opacity: 1; clickable: false}
+.building {fill: #FF9C30; stroke: #333333; stroke-width: 1; fill-opacity: 1} /*#FF9C30*/
+.townhall {fill: #e9b8ff; stroke: 333333; stroke-width: 1; fill-opacity: 1}
+.roof {fill: #ffbaba; stroke: 333333; stroke-width: 1; fill-opacity: 1}
+.landuseRailway {fill: #fff1ba; stroke: none; stroke-width: 1; fill-opacity: 1}
+.mouseOver {fill-opacity: 0.5}
+.mouseOut {fill-opacity: 1}
+
+.aufzugsPfeile g.pfeilUnten {
+  animation       : pfeilUntenMove 2s infinite;
+  transform-origin: center top;
+}
+@keyframes pfeilUntenMove {
+  0%        {transform: translate(0,-20px)}
+  100%        {transform: translate(0,50px)}
+}
+
+.aufzugsPfeile g.pfeilOben {
+  animation       : pfeilObenMove 2s infinite;
+  transform-origin: center top;
+}
+@keyframes pfeilObenMove {
+  0%        {transform: translate(0,30)}
+  100%        {transform: translate(0,-60px)}
+}
+
+.aufzug {
+  background-color: yellowgreen;
+  background-size: 10%;
+  background-repeat: no-repeat;
+  fill: darkgreen;
+  width: 20px;
+  height: 20px;
+  border-left:  1px solid darkgreen;
+  border-right: 1px solid darkgreen;
+  border-top: .5px solid darkgreen;
+  border-bottom: .5px solid darkgreen;
+}
+.aufzugOOR {
+  background-color: LightCoral ;
+  background-size: 10%;
+  background-repeat: no-repeat;
+  fill: DarkRed;
+  width: 20px;
+  height: 20px;
+  border-left:  1px solid DarkRed;
+  border-right: 1px solid DarkRed;
+  border-top: .5px solid DarkRed;
+  border-bottom: .5px solid DarkRed;
+}
+
+/* Beschriftungen */
+.label {
+   font: bold 24px/30px arial, sans-serif;
+   color: red;
+   fill-color: red;
+   fill: darkgreen;
+}
